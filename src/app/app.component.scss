@@ -1,0 +1,18 @@
+.app {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  background: url("../assets/images/drums.jpg");
+  background-size: cover;
+  background-position: center center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__keys {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
