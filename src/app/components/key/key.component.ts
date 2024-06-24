@@ -1,7 +1,16 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { DrumsEnum, ISound } from '../../models';
-import { CommonModule } from '@angular/common';
-import { Observable, Subscription, filter, fromEvent, map, tap } from 'rxjs';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import {
+  Observable,
+  Subscription,
+  debounce,
+  debounceTime,
+  filter,
+  fromEvent,
+  map,
+  tap,
+} from 'rxjs';
 import { AudioService } from '../../services/audio.service';
 
 @Component({
@@ -28,14 +37,21 @@ export class KeyComponent implements OnInit, OnDestroy {
   }
 
   public keyDown$: Observable<KeyboardEvent>;
+  public isPlaying: boolean = false;
 
-  constructor(private audioService: AudioService) {
+  constructor(
+    private audioService: AudioService,
+    @Inject(DOCUMENT) private document: Document
+  ) {
     this.keyDown$ = fromEvent(document, 'keypress').pipe(
       map((data) => data as KeyboardEvent),
       filter((data) => data.key === this.sound.key.toLowerCase()),
       tap((data) => {
         audioService.playSound(this.sound.sound);
-      })
+        this.isPlaying = true;
+      }),
+      debounceTime(500),
+      tap(() => (this.isPlaying = false))
     );
   }
 

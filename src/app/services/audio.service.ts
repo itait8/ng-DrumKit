@@ -37,7 +37,7 @@ export class AudioService {
   }
 
   public playSound(sound: DrumsEnum): void {
-    const filePath: string = './../assets/audio/'.concat(sound);
+    const filePath: string = 'assets/audio/'.concat(sound);
     console.log(filePath);
     if (typeof window != 'undefined') {
       console.log('executed');
