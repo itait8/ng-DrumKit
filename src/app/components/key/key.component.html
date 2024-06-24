@@ -1,1 +1,3 @@
-<div class="key" *ngIf="sound">{{ sound.key | uppercase }}</div>
+<div class="key" *ngIf="sound" [ngClass]="{ 'key--grow': isPlaying }">
+  {{ sound.key | uppercase }}
+</div>
